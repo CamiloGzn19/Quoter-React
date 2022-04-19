@@ -88,7 +88,6 @@ const Formulario = ({ guardarResumen, guardarCargando }) => {
 
     // Tasas de aumento > Americano 15% - Asiatico 5% - Europeo 30%
     resultado = calcularMarca(marca) * resultado;
-    console.log(resultado);
 
     // Tasa de aumento > Basico 20% - Completo 50%
     const incrementoPlan = obtenerPlan(plan);
@@ -100,7 +99,7 @@ const Formulario = ({ guardarResumen, guardarCargando }) => {
       guardarCargando(false);
       // Total
       guardarResumen({
-        cotizacion: resultado,
+        cotizacion: Number(resultado),
         datos,
       });
     }, 2000);
