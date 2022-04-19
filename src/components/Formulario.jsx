@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { obtenerDiferenciaYear, calcularMarca } from "../helper";
+import { obtenerDiferenciaYear, calcularMarca, obtenerPlan } from "../helper";
 
 const Campo = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ const Error = styled.div`
   margin-bottom: 2rem;
 `;
 
-const Formulario = () => {
+const Formulario = ({ guardarResumen }) => {
   // Estados de la App
   const [datos, guardarDatos] = useState({
     marca: "",
@@ -60,7 +60,6 @@ const Formulario = () => {
   const { marca, year, plan } = datos;
 
   // Leer los datos del formulario y colocarlos en el state
-
   const obtenerInformacion = (e) => {
     guardarDatos({
       ...datos,
@@ -69,7 +68,6 @@ const Formulario = () => {
   };
 
   // Cuando el usuario envia los datos
-
   const cotizarSeguro = (e) => {
     e.preventDefault();
     if (marca.trim() === "" || year.trim() === "" || plan.trim() === "") {
@@ -78,7 +76,7 @@ const Formulario = () => {
     }
     guardarError(false);
 
-    // Una base de 2000
+    // Un precio base de 2000
     let resultado = 2000;
 
     // Obtener la diferencia de años
@@ -92,9 +90,14 @@ const Formulario = () => {
     console.log(resultado);
 
     // Tasa de aumento > Basico 20% - Completo 50%
-
+    const incrementoPlan = obtenerPlan(plan);
+    resultado = parseFloat(incrementoPlan * resultado).toFixed(2);
 
     // Total
+    guardarResumen({
+      cotizacion: resultado,
+      datos,
+    });
   };
 
   return (
